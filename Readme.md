@@ -1,7 +1,7 @@
 # Проект «Большое путешествие» [![Build status][travis-image]][travis-url]
 
 * Студент: [Владимир Брылев](https://up.htmlacademy.ru/ecmascript/13/user/634645).
-* Наставник: `Неизвестно`.
+* Наставник: [Владимир Брылев](https://up.htmlacademy.ru/ecmascript/13/user/634645).
 
 ---
 
