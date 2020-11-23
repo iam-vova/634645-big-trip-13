@@ -7,8 +7,10 @@ import {createEventsListTemplate} from "./view/events-list";
 import {createEventsItemTemplate} from "./view/events-item";
 import {createEventsCreateFormTemplate} from "./view/events-create-form";
 import {createEventsEditFormTemplate} from "./view/events-edit-form";
+import {generatePoint} from "./mock/point";
 
-const EVENTS_COUNT = 3;
+const EVENTS_COUNT = 5;
+const events = new Array(EVENTS_COUNT).fill().map(generatePoint);
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -37,7 +39,7 @@ const siteEventsListElement = siteEventsElement.querySelector(`.trip-events__lis
 render(siteEventsListElement, createEventsEditFormTemplate(), `afterbegin`);
 
 for (let i = 0; i < EVENTS_COUNT; i++) {
-  render(siteEventsListElement, createEventsItemTemplate(), `beforeend`);
+  render(siteEventsListElement, createEventsItemTemplate(events[i]), `beforeend`);
 }
 
 // Информация о маршруте;
