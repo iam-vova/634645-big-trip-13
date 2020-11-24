@@ -1,3 +1,4 @@
+import {getFormatedDate} from "../utils/common";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 dayjs.extend(duration);
@@ -15,13 +16,9 @@ const getDurationTime = (time) => {
   }
 };
 
-const getFormatedDate = (date, format) => {
-  return date !== null ? dayjs(date).format(format) : ``;
-};
-
 const createExtraOptionsTemplate = (extraOptions) => {
   return extraOptions.map((extraOption) => `<li class="event__offer">
-            <span class="event__offer-title">${extraOption.name}</span>
+            <span class="event__offer-title">${extraOption.title}</span>
             &plus;&euro;&nbsp;
             <span class="event__offer-price">${extraOption.cost}</span>
           </li>`).join(``);
@@ -29,7 +26,7 @@ const createExtraOptionsTemplate = (extraOptions) => {
 
 export const createEventsItemTemplate = (event) => {
   const {type, destination, dateFrom, dateTo, cost, extraOptions, isFavorite} = event;
-  const {destinationName, description, pics} = destination;
+  const {destinationName} = destination;
 
   const timeStart = getFormatedDate(dateFrom, `HH:MM`);
   const timeEnd = getFormatedDate(dateTo, `HH:MM`);

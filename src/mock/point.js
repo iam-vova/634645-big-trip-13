@@ -1,24 +1,11 @@
 import dayjs from "dayjs";
 import {getRandomInteger, arrayShuffle} from "../utils/common";
-import {generateExtraOptions} from "./extra-options";
+import {EVENT_TYPES, DESTINATIONS, EXTRA_OPTIONS} from "../const";
 
 const generatePointType = () => {
-  const types = [
-    `Taxi`,
-    `Bus`,
-    `Train`,
-    `Ship`,
-    `Transport`,
-    `Drive`,
-    `Flight`,
-    `Check-in`,
-    `Sightseeing`,
-    `Restaurant`
-  ];
+  const randomIndex = getRandomInteger(0, EVENT_TYPES.length - 1);
 
-  const randomIndex = getRandomInteger(0, types.length - 1);
-
-  return types[randomIndex];
+  return EVENT_TYPES[randomIndex];
 };
 
 const destinationDescriptionFull = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. ` +
@@ -31,20 +18,15 @@ const destinationDescriptionFull = `Lorem ipsum dolor sit amet, consectetur adip
 
 const generateDestination = () => {
   const destinationPicsMax = 5;
-  const destinations = [
-    `Amsterdam`,
-    `Chamonix`,
-    `Geneva`
-  ];
 
   const destinationDescription = arrayShuffle(destinationDescriptionFull.split(`.`)).map((s) => s.trim()).slice(1, getRandomInteger(1, 5)).join(`. `) + `.`;
-  const randomIndex = getRandomInteger(0, destinations.length - 1);
+  const randomIndex = getRandomInteger(0, DESTINATIONS.length - 1);
   const destionationPics = [];
   for (let i = getRandomInteger(0, destinationPicsMax); i--;) {
     destionationPics.push(`http://picsum.photos/248/152?r=${i}`);
   }
 
-  return {'destinationName': destinations[randomIndex], 'description': destinationDescription, 'pics': destionationPics};
+  return {'destinationName': DESTINATIONS[randomIndex], 'description': destinationDescription, 'pics': destionationPics};
 };
 
 const tripStartDate = dayjs().add(3, `month`).toDate();
@@ -62,6 +44,12 @@ const generateDate = () => {
   pointStartDate = pointEndDate;
 
   return pointEndDate;
+};
+
+export const generateExtraOptions = (count) => {
+  let optionsTitlesCopy = arrayShuffle(EXTRA_OPTIONS.slice()).slice(0, count);
+
+  return optionsTitlesCopy;
 };
 
 export const generatePoint = () => {
