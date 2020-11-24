@@ -44,7 +44,7 @@ const generateDestination = () => {
     destionationPics.push(`http://picsum.photos/248/152?r=${i}`);
   }
 
-  return {'destination': destinations[randomIndex], 'description': destinationDescription, 'pics': destionationPics};
+  return {'destinationName': destinations[randomIndex], 'description': destinationDescription, 'pics': destionationPics};
 };
 
 const tripStartDate = dayjs().add(3, `month`).toDate();
@@ -70,7 +70,7 @@ export const generatePoint = () => {
   return {
     type: generatePointType(),
     destination: generateDestination(),
-    dateFrom: tripStartDate,
+    dateFrom: pointStartDate,
     dateTo: generateDate(),
     cost: getRandomInteger(1, 50),
     extraOptions: generateExtraOptions(EXTRA_OPTIONS_COUNT),
