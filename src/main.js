@@ -35,8 +35,8 @@ render(siteEventsElement, createEventsListTemplate(), `beforeend`);
 
 const siteEventsListElement = siteEventsElement.querySelector(`.trip-events__list`);
 
-// render(siteEventsListElement, createEventsCreateFormTemplate(), 'afterbegin');
-render(siteEventsListElement, createEventsEditFormTemplate(events[0]), `afterbegin`);
+render(siteEventsListElement, createEventsCreateFormTemplate(events[0]), 'afterbegin');
+// render(siteEventsListElement, createEventsEditFormTemplate(events[0]), `afterbegin`);
 
 for (let i = 0; i < EVENTS_COUNT; i++) {
   render(siteEventsListElement, createEventsItemTemplate(events[i]), `beforeend`);
