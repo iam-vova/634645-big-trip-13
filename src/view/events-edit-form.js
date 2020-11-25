@@ -2,7 +2,7 @@ import {getFormatedDate} from "../utils/common";
 import {EVENT_TYPES, DESTINATIONS, EXTRA_OPTIONS} from "../const";
 
 const getOfferIdName = (opton) => {
-  return opton.split(' ').pop();
+  return opton.split(` `).pop();
 };
 
 const createEventTypeItemTemplate = (currentType) => {
@@ -18,7 +18,9 @@ const createEventTypeItemTemplate = (currentType) => {
 };
 
 const createEventOffersTemplate = (eventOffers) => {
-  const checkedEvents = eventOffers.map((offer) => {return offer.title});
+  const checkedEvents = eventOffers.map((offer) => {
+    return offer.title;
+  });
 
   return EXTRA_OPTIONS.map((option) => ` <div class="event__offer-selector">
                       <input class="event__offer-checkbox visually-hidden"

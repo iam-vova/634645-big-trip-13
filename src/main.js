@@ -5,7 +5,7 @@ import {createSiteFiltersTemplate} from "./view/site-filters";
 import {createTripSortTemplate} from "./view/trip-sort";
 import {createEventsListTemplate} from "./view/events-list";
 import {createEventsItemTemplate} from "./view/events-item";
-import {createEventsCreateFormTemplate} from "./view/events-create-form";
+// import {createEventsCreateFormTemplate} from "./view/events-create-form";
 import {createEventsEditFormTemplate} from "./view/events-edit-form";
 import {generatePoint} from "./mock/point";
 
@@ -20,7 +20,7 @@ const siteHeaderElement = document.querySelector(`.page-header`);
 const siteMainElement = document.querySelector(`.page-main`);
 const siteTripMainElement = siteHeaderElement.querySelector(`.trip-main`);
 
-render(siteTripMainElement, createTripInfoTepmplate(), `afterbegin`);
+render(siteTripMainElement, createTripInfoTepmplate(events), `afterbegin`);
 
 const siteTripInfoElement = siteTripMainElement.querySelector(`.trip-info`);
 render(siteTripInfoElement, createTripCostTemplate(events), `beforeend`);
@@ -35,8 +35,8 @@ render(siteEventsElement, createEventsListTemplate(), `beforeend`);
 
 const siteEventsListElement = siteEventsElement.querySelector(`.trip-events__list`);
 
-render(siteEventsListElement, createEventsCreateFormTemplate(events[0]), 'afterbegin');
-// render(siteEventsListElement, createEventsEditFormTemplate(events[0]), `afterbegin`);
+// render(siteEventsListElement, createEventsCreateFormTemplate(events[0]), 'afterbegin');
+render(siteEventsListElement, createEventsEditFormTemplate(events[0]), `afterbegin`);
 
 for (let i = 0; i < EVENTS_COUNT; i++) {
   render(siteEventsListElement, createEventsItemTemplate(events[i]), `beforeend`);

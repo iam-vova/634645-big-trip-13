@@ -1,8 +1,8 @@
 import {getFormatedDate} from "../utils/common";
 import {DESTINATIONS, EVENT_TYPES, EXTRA_OPTIONS} from "../const";
 
-const getOfferIdName = (opton) => {
-  return opton.split(` `).pop();
+const getOfferIdName = (option) => {
+  return option.split(` `).pop();
 };
 
 const createEventTypeItemTemplate = (currentType) => {
