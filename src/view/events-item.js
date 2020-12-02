@@ -1,6 +1,7 @@
-import {getFormatedDate} from "../utils/common";
+import {createElement, getFormatedDate} from "../utils/common";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
+import {createEventsCreateFormTemplate} from "./events-create-form";
 dayjs.extend(duration);
 
 const ONE_HOUR = 3600000;
@@ -24,7 +25,7 @@ const createExtraOptionsTemplate = (extraOptions) => {
           </li>`).join(``);
 };
 
-export const createEventsItemTemplate = (event) => {
+const createEventsItemTemplate = (event) => {
   const {type, destination, dateFrom, dateTo, cost, extraOptions, isFavorite} = event;
   const {destinationName} = destination;
 
@@ -70,3 +71,26 @@ export const createEventsItemTemplate = (event) => {
             </div>
           </li>`;
 };
+
+export default class EventsItem {
+  constructor(event) {
+    this._event = event;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createEventsItemTemplate(this._event);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

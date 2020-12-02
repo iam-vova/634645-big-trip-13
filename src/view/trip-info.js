@@ -1,4 +1,4 @@
-import {getFormatedDate} from "../utils/common";
+import {getFormatedDate, createElement} from "../utils/common";
 
 const getTripInfo = (events) => {
   let tripInfo = [];
@@ -24,7 +24,7 @@ const getTripEndDate = (timeStart, timeEnd) => {
   }
 };
 
-export const createTripInfoTepmplate = (events) => {
+const createTripInfoTepmplate = (events) => {
   const timeStart = getFormatedDate(events[0].dateFrom, `MMM DD`);
   const timeEnd = getFormatedDate(events[events.length - 1].dateTo, `MMM DD`);
 
@@ -36,3 +36,26 @@ export const createTripInfoTepmplate = (events) => {
             </div>
           </section>`;
 };
+
+export default class TripInfo {
+  constructor(events) {
+    this._events = events;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTripInfoTepmplate(this._events);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

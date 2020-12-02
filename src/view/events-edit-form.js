@@ -1,4 +1,4 @@
-import {getFormatedDate} from "../utils/common";
+import {createElement, getFormatedDate} from "../utils/common";
 import {EVENT_TYPES, DESTINATIONS, EXTRA_OPTIONS} from "../const";
 
 const getOfferIdName = (opton) => {
@@ -41,7 +41,7 @@ const createDestinationListTemplate = () => {
   return DESTINATIONS.map((destination) => `<option value="${destination}"></option>`).join(``);
 };
 
-export const createEventsEditFormTemplate = (event) => {
+const createEventsEditFormTemplate = (event) => {
   const {type, destination, dateFrom, dateTo, cost, extraOptions} = event;
   const {destinationName, description} = destination;
 
@@ -115,3 +115,26 @@ export const createEventsEditFormTemplate = (event) => {
             </form>
           </li>`;
 };
+
+export default class EventsEditForm {
+  constructor(event) {
+    this._event = event;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createEventsEditFormTemplate(this._event);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

@@ -1,43 +1,42 @@
-import {createTripInfoTepmplate} from "./view/trip-info";
-import {createTripCostTemplate} from "./view/trip-cost";
-import {createSiteMenuTemplate} from "./view/site-nav";
-import {createSiteFiltersTemplate} from "./view/site-filters";
-import {createTripSortTemplate} from "./view/trip-sort";
-import {createEventsListTemplate} from "./view/events-list";
-import {createEventsItemTemplate} from "./view/events-item";
-// import {createEventsCreateFormTemplate} from "./view/events-create-form";
-import {createEventsEditFormTemplate} from "./view/events-edit-form";
+import TripInfo from "./view/trip-info";
+import TripCost from "./view/trip-cost";
+import SiteMenu from "./view/site-nav";
+import SiteFilters from "./view/site-filters";
+import TripSort from "./view/trip-sort";
+import EventsList, {createEventsListTemplate} from "./view/events-list";
+import EventsItem from "./view/events-item";
+// import EventsCreateForm from "./view/events-create-form";
+import EventsEditForm from "./view/events-edit-form";
 import {generatePoint} from "./mock/point";
-import {renderTemplate} from "./utils/common";
+import {renderTemplate, renderElement, RenderPosition} from "./utils/common";
 
 const EVENTS_COUNT = 5;
 const events = new Array(EVENTS_COUNT).fill().map(generatePoint);
-
 
 const siteHeaderElement = document.querySelector(`.page-header`);
 const siteMainElement = document.querySelector(`.page-main`);
 const siteTripMainElement = siteHeaderElement.querySelector(`.trip-main`);
 
-renderTemplate(siteTripMainElement, createTripInfoTepmplate(events), `afterbegin`);
+renderElement(siteTripMainElement, new TripInfo(events).getElement(), RenderPosition.AFTERBEGIN);
 
 const siteTripInfoElement = siteTripMainElement.querySelector(`.trip-info`);
-renderTemplate(siteTripInfoElement, createTripCostTemplate(events), `beforeend`);
+renderElement(siteTripInfoElement, new TripCost(events).getElement(), RenderPosition.BEFOREEND);
 
 const siteControlsElement = siteTripMainElement.querySelector(`.trip-controls`);
-renderTemplate(siteControlsElement, createSiteMenuTemplate(), `afterbegin`);
-renderTemplate(siteControlsElement, createSiteFiltersTemplate(), `beforeend`);
+renderElement(siteControlsElement, new SiteMenu().getElement(), RenderPosition.AFTERBEGIN);
+renderElement(siteControlsElement, new SiteFilters().getElement(), RenderPosition.BEFOREEND);
 
 const siteEventsElement = siteMainElement.querySelector(`.trip-events`);
-renderTemplate(siteEventsElement, createTripSortTemplate(), `beforeend`);
-renderTemplate(siteEventsElement, createEventsListTemplate(), `beforeend`);
+renderElement(siteEventsElement, new TripSort().getElement(), RenderPosition.BEFOREEND);
+renderElement(siteEventsElement, new EventsList().getElement(), RenderPosition.BEFOREEND);
 
 const siteEventsListElement = siteEventsElement.querySelector(`.trip-events__list`);
 
-// render(siteEventsListElement, createEventsCreateFormTemplate(events[0]), 'afterbegin');
-renderTemplate(siteEventsListElement, createEventsEditFormTemplate(events[0]), `afterbegin`);
+// renderElement(siteEventsListElement, new EventsCreateForm(events[0]).getElement(), RenderPosition.AFTERBEGIN);
+renderElement(siteEventsListElement, new EventsEditForm(events[0]).getElement(), RenderPosition.AFTERBEGIN);
 
 for (let i = 0; i < EVENTS_COUNT; i++) {
-  renderTemplate(siteEventsListElement, createEventsItemTemplate(events[i]), `beforeend`);
+  renderElement(siteEventsListElement, new EventsItem(events[i]).getElement(), RenderPosition.BEFOREEND);
 }
 
 // Информация о маршруте;

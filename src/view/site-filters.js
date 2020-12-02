@@ -1,4 +1,6 @@
-export const createSiteFiltersTemplate = () => {
+import {createElement} from "../utils/common";
+
+const createSiteFiltersTemplate = () => {
   return `<h2 class="visually-hidden">Filter events</h2>
             <form class="trip-filters" action="#" method="get">
               <div class="trip-filters__filter">
@@ -19,3 +21,26 @@ export const createSiteFiltersTemplate = () => {
               <button class="visually-hidden" type="submit">Accept filter</button>
             </form>`;
 };
+
+export default class SiteFilters {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createSiteFiltersTemplate();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+
