@@ -34,6 +34,36 @@ render(siteEventsElement, eventsListComponent.getElement(), RenderPosition.BEFOR
 // render(eventsListComponent.getElement(), new EventsCreateForm(events[0]).getElement(), RenderPosition.AFTERBEGIN);
 // render(eventsListComponent.getElement(), new EventsEditForm(events[0]).getElement(), RenderPosition.AFTERBEGIN);
 
+const renderEvent = (eventsListElement, event) => {
+  const eventComponent = new EventsItem(event);
+  const eventEditComponent = new EventsEditForm(event);
+
+  const replaceEventToForm = () => {
+    eventsListElement.replaceChild(eventEditComponent.getElement(), eventComponent.getElement());
+  };
+
+  const replaceFormToEvent = () => {
+    eventsListElement.replaceChild(eventComponent.getElement(), eventEditComponent.getElement());
+  };
+
+  eventComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
+    replaceEventToForm();
+  });
+
+  eventEditComponent.getElement().querySelector(`form`).addEventListener(`submit`, (evt) => {
+    evt.preventDefault();
+    replaceFormToEvent();
+  });
+
+  eventEditComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, (evt) => {
+    evt.preventDefault();
+    replaceFormToEvent();
+  });
+
+  render(eventsListElement, eventComponent.getElement(), RenderPosition.BEFOREEND);
+};
+
 for (let i = 0; i < EVENTS_COUNT; i++) {
-  render(eventsListComponent.getElement(), new EventsItem(events[i]).getElement(), RenderPosition.BEFOREEND);
+  renderEvent(eventsListComponent.getElement(), events[i]);
 }
+
