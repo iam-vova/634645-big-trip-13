@@ -6,7 +6,7 @@ const getTripInfo = (events) => {
   for (let event of events) {
     const {destinationName} = event.destination;
     if (tripInfo[tripInfo.length - 1] !== destinationName) {
-      return tripInfo.push(destinationName);
+      tripInfo.push(destinationName);
     }
   }
 

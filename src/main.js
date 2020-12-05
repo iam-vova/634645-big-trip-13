@@ -28,22 +28,12 @@ render(siteControlsElement, new SiteFilters().getElement(), RenderPosition.BEFOR
 
 const siteEventsElement = siteMainElement.querySelector(`.trip-events`);
 render(siteEventsElement, new TripSort().getElement(), RenderPosition.BEFOREEND);
-render(siteEventsElement, new EventsList().getElement(), RenderPosition.BEFOREEND);
 
-const siteEventsListElement = siteEventsElement.querySelector(`.trip-events__list`);
-
-// render(siteEventsListElement, new EventsCreateForm(events[0]).getElement(), RenderPosition.AFTERBEGIN);
-render(siteEventsListElement, new EventsEditForm(events[0]).getElement(), RenderPosition.AFTERBEGIN);
+const eventsListComponent = new EventsList();
+render(siteEventsElement, eventsListComponent.getElement(), RenderPosition.BEFOREEND);
+// render(eventsListComponent.getElement(), new EventsCreateForm(events[0]).getElement(), RenderPosition.AFTERBEGIN);
+// render(eventsListComponent.getElement(), new EventsEditForm(events[0]).getElement(), RenderPosition.AFTERBEGIN);
 
 for (let i = 0; i < EVENTS_COUNT; i++) {
-  render(siteEventsListElement, new EventsItem(events[i]).getElement(), RenderPosition.BEFOREEND);
+  render(eventsListComponent.getElement(), new EventsItem(events[i]).getElement(), RenderPosition.BEFOREEND);
 }
-
-// Информация о маршруте;
-// Стоимость поездки;
-// Меню;
-// Фильтры;
-// Сортировка;
-// Форма создания;
-// Форма редактирования;
-// Точка маршрута (в списке)
