@@ -1,7 +1,6 @@
 import {createElement, getFormatedDate} from "../utils/common";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
-import {createEventsCreateFormTemplate} from "./events-create-form";
 dayjs.extend(duration);
 
 const ONE_HOUR = 3600000;

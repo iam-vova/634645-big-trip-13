@@ -8,7 +8,7 @@ import EventsItem from "./view/events-item";
 // import EventsCreateForm from "./view/events-create-form";
 import EventsEditForm from "./view/events-edit-form";
 import {generatePoint} from "./mock/point";
-import {renderTemplate, render, RenderPosition} from "./utils/common";
+import {render, RenderPosition} from "./utils/common";
 
 const EVENTS_COUNT = 5;
 const events = new Array(EVENTS_COUNT).fill().map(generatePoint);
@@ -31,8 +31,6 @@ render(siteEventsElement, new TripSort().getElement(), RenderPosition.BEFOREEND)
 
 const eventsListComponent = new EventsList();
 render(siteEventsElement, eventsListComponent.getElement(), RenderPosition.BEFOREEND);
-// render(eventsListComponent.getElement(), new EventsCreateForm(events[0]).getElement(), RenderPosition.AFTERBEGIN);
-// render(eventsListComponent.getElement(), new EventsEditForm(events[0]).getElement(), RenderPosition.AFTERBEGIN);
 
 const renderEvent = (eventsListElement, event) => {
   const eventComponent = new EventsItem(event);
