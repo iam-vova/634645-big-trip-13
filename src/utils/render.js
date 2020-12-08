@@ -57,7 +57,7 @@ export const replace = (newChild, oldChild) => {
 };
 
 export const remove = (component) => {
-  if (!(component instanceof Abstract)) {
+  if (!(component instanceof AbstractEvent)) {
     throw new Error(`Can remove only components`);
   }
 
