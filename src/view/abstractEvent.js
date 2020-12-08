@@ -1,4 +1,4 @@
-import {createElement} from "../utils/common";
+import {createElement} from "../utils/render";
 
 export default class AbstractEvent {
   constructor() {
@@ -7,6 +7,7 @@ export default class AbstractEvent {
     }
 
     this._element = null;
+    this._callback = {};
   }
 
   getTemplate() {

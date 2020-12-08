@@ -2,20 +2,9 @@ import AbstractEvent from "./abstractEvent";
 import {getFormatedDate} from "../utils/common";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
+import {getDurationTime} from "../utils/event";
 dayjs.extend(duration);
 
-const ONE_HOUR = 3600000;
-const ONE_DAY = 86400000;
-const getDurationTime = (time) => {
-  const timsMs = time.asMilliseconds();
-  if (timsMs <= ONE_HOUR) {
-    return time.get(`minutes`) + `M`;
-  } else if (timsMs <= ONE_DAY) {
-    return time.get(`hours`) + `H ` + time.get(`minutes`) + `M`;
-  } else {
-    return time.get(`days`) + `D ` + time.get(`hours`) + `H ` + time.get(`minutes`) + `M`;
-  }
-};
 
 const createExtraOptionsTemplate = (extraOptions) => {
   return extraOptions.map((extraOption) => `<li class="event__offer">
@@ -76,9 +65,21 @@ export default class EventsItem extends AbstractEvent {
   constructor(event) {
     super();
     this._event = event;
+
+    this._editClickHandler = this._editClickHandler.bind(this);
   }
 
   getTemplate() {
     return createEventsItemTemplate(this._event);
+  }
+
+  _editClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.editClick();
+  }
+
+  setEditClickHandler(callback) {
+    this._callback.editClick = callback;
+    this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._editClickHandler);
   }
 }

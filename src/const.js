@@ -17,6 +17,9 @@ export const DESTINATIONS = [
   `Geneva`
 ];
 
+export const ONE_HOUR = 3600000;
+export const ONE_DAY = 86400000;
+
 export const EXTRA_OPTIONS = [
   {
     title: `Add luggage`,

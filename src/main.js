@@ -8,7 +8,7 @@ import EventsItem from "./view/events-item";
 // import EventsCreateForm from "./view/events-create-form";
 import EventsEditForm from "./view/events-edit-form";
 import {generatePoint} from "./mock/point";
-import {render, RenderPosition} from "./utils/common";
+import {render, RenderPosition, replace, remove} from "./utils/render";
 
 const EVENTS_COUNT = 5;
 const events = new Array(EVENTS_COUNT).fill().map(generatePoint);
@@ -17,31 +17,31 @@ const siteHeaderElement = document.querySelector(`.page-header`);
 const siteMainElement = document.querySelector(`.page-main`);
 const siteTripMainElement = siteHeaderElement.querySelector(`.trip-main`);
 
-render(siteTripMainElement, new TripInfo(events).getElement(), RenderPosition.AFTERBEGIN);
+render(siteTripMainElement, new TripInfo(events), RenderPosition.AFTERBEGIN);
 
 const siteTripInfoElement = siteTripMainElement.querySelector(`.trip-info`);
-render(siteTripInfoElement, new TripCost(events).getElement(), RenderPosition.BEFOREEND);
+render(siteTripInfoElement, new TripCost(events), RenderPosition.BEFOREEND);
 
 const siteControlsElement = siteTripMainElement.querySelector(`.trip-controls`);
-render(siteControlsElement, new SiteMenu().getElement(), RenderPosition.AFTERBEGIN);
-render(siteControlsElement, new SiteFilters().getElement(), RenderPosition.BEFOREEND);
+render(siteControlsElement, new SiteMenu(), RenderPosition.AFTERBEGIN);
+render(siteControlsElement, new SiteFilters(), RenderPosition.BEFOREEND);
 
 const siteEventsElement = siteMainElement.querySelector(`.trip-events`);
-render(siteEventsElement, new TripSort().getElement(), RenderPosition.BEFOREEND);
+render(siteEventsElement, new TripSort(), RenderPosition.BEFOREEND);
 
 const eventsListComponent = new EventsList();
-render(siteEventsElement, eventsListComponent.getElement(), RenderPosition.BEFOREEND);
+render(siteEventsElement, eventsListComponent, RenderPosition.BEFOREEND);
 
 const renderEvent = (eventsListElement, event) => {
   const eventComponent = new EventsItem(event);
   const eventEditComponent = new EventsEditForm(event);
 
   const replaceEventToForm = () => {
-    eventsListElement.replaceChild(eventEditComponent.getElement(), eventComponent.getElement());
+    replace(eventEditComponent, eventComponent);
   };
 
   const replaceFormToEvent = () => {
-    eventsListElement.replaceChild(eventComponent.getElement(), eventEditComponent.getElement());
+    replace(eventComponent, eventEditComponent);
   };
 
   const onEscKeyDown = (evt) => {
@@ -52,25 +52,24 @@ const renderEvent = (eventsListElement, event) => {
     }
   };
 
-  eventComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
+  eventComponent.setEditClickHandler(() => {
     replaceEventToForm();
     document.addEventListener(`keydown`, onEscKeyDown);
   });
 
-  eventEditComponent.getElement().querySelector(`form`).addEventListener(`submit`, (evt) => {
-    evt.preventDefault();
+  eventEditComponent.setFormSubmitHandler(() => {
     replaceFormToEvent();
     document.removeEventListener(`keydown`, onEscKeyDown);
   });
 
-  eventEditComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
+  eventEditComponent.setFormCloseHandler(() => {
     replaceFormToEvent();
   });
 
-  render(eventsListElement, eventComponent.getElement(), RenderPosition.BEFOREEND);
+  render(eventsListElement, eventComponent, RenderPosition.BEFOREEND);
 };
 
 for (let i = 0; i < EVENTS_COUNT; i++) {
-  renderEvent(eventsListComponent.getElement(), events[i]);
+  renderEvent(eventsListComponent, events[i]);
 }
 
