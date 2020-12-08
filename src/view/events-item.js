@@ -1,4 +1,5 @@
-import {createElement, getFormatedDate} from "../utils/common";
+import AbstractEvent from "./abstractEvent";
+import {getFormatedDate} from "../utils/common";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 dayjs.extend(duration);
@@ -71,25 +72,13 @@ const createEventsItemTemplate = (event) => {
           </li>`;
 };
 
-export default class EventsItem {
+export default class EventsItem extends AbstractEvent {
   constructor(event) {
+    super();
     this._event = event;
-    this._element = null;
   }
 
   getTemplate() {
     return createEventsItemTemplate(this._event);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

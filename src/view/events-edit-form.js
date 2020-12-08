@@ -1,4 +1,5 @@
-import {createElement, getFormatedDate} from "../utils/common";
+import AbstractEvent from "./abstractEvent";
+import {getFormatedDate} from "../utils/common";
 import {EVENT_TYPES, DESTINATIONS, EXTRA_OPTIONS} from "../const";
 
 const getOfferIdName = (opton) => {
@@ -116,25 +117,13 @@ const createEventsEditFormTemplate = (event) => {
           </li>`;
 };
 
-export default class EventsEditForm {
+export default class EventsEditForm extends AbstractEvent {
   constructor(event) {
+    super();
     this._event = event;
-    this._element = null;
   }
 
   getTemplate() {
     return createEventsEditFormTemplate(this._event);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
