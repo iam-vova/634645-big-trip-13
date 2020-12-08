@@ -1,4 +1,5 @@
-import {createElement, getFormatedDate} from "../utils/common";
+import AbstractEvent from "./abstractEvent";
+import {getFormatedDate} from "../utils/common";
 import {EVENT_TYPES, DESTINATIONS, EXTRA_OPTIONS} from "../const";
 
 const getOfferIdName = (opton) => {
@@ -116,25 +117,36 @@ const createEventsEditFormTemplate = (event) => {
           </li>`;
 };
 
-export default class EventsEditForm {
+export default class EventsEditForm extends AbstractEvent {
   constructor(event) {
+    super();
     this._event = event;
-    this._element = null;
+
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
+    this._formCloseHandler = this._formCloseHandler.bind(this);
   }
 
   getTemplate() {
     return createEventsEditFormTemplate(this._event);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _formSubmitHandler(evt) {
+    evt.preventDefault();
+    this._callback.formSubmit();
   }
 
-  removeElement() {
-    this._element = null;
+  _formCloseHandler(evt) {
+    evt.preventDefault();
+    this._callback.formClose();
+  }
+
+  setFormSubmitHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
+  }
+
+  setFormCloseHandler(callback) {
+    this._callback.formClose = callback;
+    this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._formCloseHandler);
   }
 }
