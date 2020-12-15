@@ -1,23 +1,22 @@
 import TripEventsView from "../view/trip-events";
 import EventsListView from "../view/events-list";
 import EmptyEventsListView from "../view/empty-events-list";
-import EventsItemView from "../view/events-item";
 import TripSortView from "../view/trip-sort";
-import {render, RenderPosition, replace} from "../utils/render";
-import EventsItem from "../view/events-item";
-import EventsEditForm from "../view/events-edit-form";
-
-const EVENTS_COUNT = 5;
+import {render, RenderPosition} from "../utils/render";
+import EventPresenter from "./event";
+import {updateItem} from "../utils/common";
 
 export default class Trip {
   constructor(tripContainer) {
     this._tripContainer = tripContainer;
+    this._eventPresenter = {};
 
     this._tripEvents = new TripEventsView();
     this._eventsList = new EventsListView();
     this._emptyEventsList = new EmptyEventsListView();
-    this._eventsItem = new EventsItemView();
     this._eventsSort = new TripSortView();
+    this._handleModeChange = this._handleModeChange.bind(this);
+    this._handleEventChange = this._handleEventChange.bind(this);
   }
 
   init(events) {
@@ -26,6 +25,11 @@ export default class Trip {
     render(this._tripContainer, this._tripEvents, RenderPosition.BEFOREEND);
 
     this._renderTripEvents();
+  }
+
+  _clearEventsList() {
+    Object.values(this._eventPresenter).forEach((presenter) => presenter.destroy());
+    this._eventPresenter = {};
   }
 
   _renderEventsList() {
@@ -37,40 +41,9 @@ export default class Trip {
   }
 
   _renderEventsItem(event) {
-    const eventComponent = new EventsItem(event);
-    const eventEditComponent = new EventsEditForm(event);
-
-    const replaceEventToForm = () => {
-      replace(eventEditComponent, eventComponent);
-    };
-
-    const replaceFormToEvent = () => {
-      replace(eventComponent, eventEditComponent);
-    };
-
-    const onEscKeyDown = (evt) => {
-      if (evt.key === `Escape` || evt.key === `Esc`) {
-        evt.preventDefault();
-        replaceFormToEvent();
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      }
-    };
-
-    eventComponent.setEditClickHandler(() => {
-      replaceEventToForm();
-      document.addEventListener(`keydown`, onEscKeyDown);
-    });
-
-    eventEditComponent.setFormSubmitHandler(() => {
-      replaceFormToEvent();
-      document.removeEventListener(`keydown`, onEscKeyDown);
-    });
-
-    eventEditComponent.setFormCloseHandler(() => {
-      replaceFormToEvent();
-    });
-
-    render(this._eventsList, eventComponent, RenderPosition.BEFOREEND);
+    const eventPresenter = new EventPresenter(this._eventsList, this._handleEventChange, this._handleModeChange);
+    eventPresenter.init(event);
+    this._eventPresenter[event.id] = eventPresenter;
   }
 
   _renderEventsItems() {
@@ -91,5 +64,16 @@ export default class Trip {
 
     this._renderEventsList();
     this._renderEventsItems();
+  }
+
+  _handleModeChange() {
+    Object
+      .values(this._eventPresenter)
+      .forEach((presenter) => presenter.resetView());
+  }
+
+  _handleEventChange(updateEvent) {
+    this._events = updateItem(this._events, updateEvent);
+    this._eventPresenter[updateEvent.id].init(updateEvent);
   }
 }

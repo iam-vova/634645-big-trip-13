@@ -46,16 +46,17 @@ const generateDate = () => {
   return pointEndDate;
 };
 
-export const generateExtraOptions = (count) => {
-  let optionsTitlesCopy = arrayShuffle(EXTRA_OPTIONS.slice()).slice(0, count);
+const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);
 
-  return optionsTitlesCopy;
+export const generateExtraOptions = (count) => {
+  return arrayShuffle(EXTRA_OPTIONS.slice()).slice(0, count);
 };
 
 export const generatePoint = () => {
   const EXTRA_OPTIONS_COUNT = getRandomInteger(0, 5);
 
   return {
+    id: generateId(),
     type: generatePointType(),
     destination: generateDestination(),
     dateFrom: pointStartDate,

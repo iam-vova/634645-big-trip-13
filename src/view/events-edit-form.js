@@ -132,7 +132,7 @@ export default class EventsEditForm extends AbstractEvent {
 
   _formSubmitHandler(evt) {
     evt.preventDefault();
-    this._callback.formSubmit();
+    this._callback.formSubmit(this._event);
   }
 
   _formCloseHandler(evt) {
