@@ -17,6 +17,12 @@ export const DESTINATIONS = [
   `Geneva`
 ];
 
+export const SortType = {
+  DAY: `sort-day`,
+  TIME: `sort-time`,
+  PRICE: `sort-price`
+};
+
 export const ONE_HOUR = 3600000;
 export const ONE_DAY = 86400000;
 

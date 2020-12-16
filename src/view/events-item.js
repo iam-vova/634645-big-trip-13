@@ -1,5 +1,5 @@
 import AbstractEvent from "./abstractEvent";
-import {getFormatedDate} from "../utils/common";
+import {getFormatedDate, getEventDuration} from "../utils/common";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import {getDurationTime} from "../utils/event";
@@ -20,7 +20,7 @@ const createEventsItemTemplate = (event) => {
 
   const timeStart = getFormatedDate(dateFrom, `HH:MM`);
   const timeEnd = getFormatedDate(dateTo, `HH:MM`);
-  const daysDiff = dayjs.duration(dayjs(dateTo).diff(dayjs(dateFrom)));
+  const daysDiff = getEventDuration(dateFrom, dateTo);
 
   const eventIsFavorite = isFavorite
     ? `event__favorite-btn--active`
