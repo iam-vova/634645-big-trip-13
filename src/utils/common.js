@@ -23,6 +23,10 @@ export const getFormatedDate = (date, format) => {
   return date !== null ? dayjs(date).format(format) : ``;
 };
 
+export const getEventDuration = (dateFrom, dateTo) => {
+  return dayjs.duration(dayjs(dateTo).diff(dayjs(dateFrom)));
+};
+
 export const updateItem = (items, update) => {
   const index = items.findIndex((item) => item.id === update.id);
 
